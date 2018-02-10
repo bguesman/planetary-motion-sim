@@ -25,10 +25,10 @@ function setup() {
 }
 
 function draw() {
-    // clear();
-    // // redraw background
-    // background(40, 50, 65);
-    // noStroke();
+    clear();
+    // redraw background
+    background(40, 50, 65);
+    noStroke();
 
     // draw the planets
     var pi;
@@ -164,7 +164,7 @@ function init_single_planet_system() {
 
 // sets up a binary star system
 function init_binary_star_system() {
-    
+
     // star 1
     planets[planets.length] = {
         pos: {x: 575, y: 300},
@@ -191,7 +191,7 @@ function init_binary_star_system() {
         color: {r: 250, g: 0, b: 0}
     }
     planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    
+
     // planet 0's moon
     planets[planets.length] = {
         pos: {x: 82, y: 300},
@@ -200,7 +200,7 @@ function init_binary_star_system() {
         color: {r: 0, g: 150, b: 250}
     }
     planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    
+
     // another planet
     planets[planets.length] = {
         pos: {x: 300, y: 300},
@@ -209,7 +209,7 @@ function init_binary_star_system() {
         color: {r: 0, g: 250, b: 205}
     }
     planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    
+
     // another planet
     planets[planets.length] = {
         pos: {x: 300, y: 133},
@@ -269,12 +269,12 @@ function rand() {
 
 // combines two planet colors based on m1 and m2 (masses)
 function combine_colors(c1, c2, m1, m2) {
-    return {r: weighted_avg(c1.r, c2.r, m1, m2), 
-        g: weighted_avg(c1.g, c2.g, m1, m2), 
+    return {r: weighted_avg(c1.r, c2.r, m1, m2),
+        g: weighted_avg(c1.g, c2.g, m1, m2),
         b: weighted_avg(c1.b, c2.b, m1, m2)};
 }
 
-// Takes weighted average of c1 and c2 with weights calculated as m1/m2 divided 
+// Takes weighted average of c1 and c2 with weights calculated as m1/m2 divided
 // by their sum. Used for averaging out colors upon inelastic collisions.
 function weighted_avg(n1, n2, m1, m2) {
     return n1 * (m1 / (m1 + m2)) + n2 * (m2 / (m1 + m2));
