@@ -8,6 +8,7 @@ const max_delta_t = 1024;
 var delta_t = 4;       // time scale between frames in seconds
 var show_paths = false; // whether or not to show the planet's paths
 var paused;
+var init_function = init_solar_system_starter;
 
 /* Data structures. */
 planets = []; // array storing planets
@@ -35,9 +36,10 @@ function setup() {
     function() { paused = true; })
   document.getElementById('restart').addEventListener('click',
     function() {
+      planets = [];
       clear();
       background(11, 10, 34);
-      init_solar_system_starter(); })
+      init_function(); })
   document.getElementById('faster').addEventListener('click',
     function() { delta_t = min(max_delta_t, delta_t * 2); })
   document.getElementById('slower').addEventListener('click',
@@ -51,13 +53,17 @@ function setup() {
       }
       show_paths = !show_paths;
     })
+  document.getElementById('system-type').addEventListener('click',
+    function() {
+      document.getElementById("system-type-dropdown").classList.toggle("show");
+    })
 
   // draw the background
   background(11, 10, 34);
   fill(color(0, 90, 190));
 
   // default system
-  init_solar_system_starter();
+  init_function();
 }
 
 /* p5's main draw loop */
@@ -162,140 +168,159 @@ function euclidean_dist(p1_x, p1_y, p2_x, p2_y) {
 
 // stes up a basic demo of the gravitational force
 function init_basic() {
-    // first planet
-    planets[planets.length] = {
-        pos: {x: 400, y: 300}, // x y position for planet 1
-        vel: {x: 0, y: 0}, // x y velocity for planet 1
-        mass: 1000000,
-        color: {r: 250, g: 0, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  init_function = init_basic;
+  planets = [];
+  clear();
+  background(11, 10, 34);
+  // first planet
+  planets[planets.length] = {
+      pos: {x: 400, y: 300}, // x y position for planet 1
+      vel: {x: 0, y: 0}, // x y velocity for planet 1
+      mass: 1000000,
+      color: {r: 250, g: 0, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // second planet
-    planets[planets.length] = {
-        pos: {x: 800, y: 300}, // x y position for plaet 2
-        vel: {x: 0, y: 0}, // x y velocity for planet 2
-        mass: 1000000,
-        color: {r: 0, g: 250, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // second planet
+  planets[planets.length] = {
+      pos: {x: 800, y: 300}, // x y position for plaet 2
+      vel: {x: 0, y: 0}, // x y velocity for planet 2
+      mass: 1000000,
+      color: {r: 0, g: 250, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 }
 
 // initializes a single planet system
 function init_single_planet_system() {
-    // star
-    planets[planets.length] = {
-        pos: {x: 575, y: 300}, // x y position for planet 2
-        vel: {x: 0, y: 0}, // x y velocity for planet 2
-        mass: 70000000,
-        color: {r: 0, g: 250, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  init_function = init_single_planet_system;
+  planets = [];
+  clear();
+  background(11, 10, 34);
+  // star
+  planets[planets.length] = {
+      pos: {x: 575, y: 300}, // x y position for planet 2
+      vel: {x: 0, y: 0}, // x y velocity for planet 2
+      mass: 70000000,
+      color: {r: 0, g: 250, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // planet
-    planets[planets.length] = {
-        pos: {x: 300, y: 300}, // x y position for planet 1
-        vel: {x: 0.00, y: 0.07}, // x y velocity for planet 1
-        mass: 50000,
-        color: {r: 250, g: 0, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // planet
+  planets[planets.length] = {
+      pos: {x: 300, y: 300}, // x y position for planet 1
+      vel: {x: 0.00, y: 0.07}, // x y velocity for planet 1
+      mass: 50000,
+      color: {r: 250, g: 0, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 }
 
 // sets up a binary star system
 function init_binary_star_system() {
+  init_function = init_binary_star_system;
+  planets = [];
+  clear();
+  background(11, 10, 34);
+  // star 1
+  planets[planets.length] = {
+      pos: {x: 575, y: 300},
+      vel: {x: 0.00, y: 0.05},
+      mass: 70000000,
+      color: {r: 0, g: 250, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // star 1
-    planets[planets.length] = {
-        pos: {x: 575, y: 300},
-        vel: {x: 0.00, y: 0.05},
-        mass: 70000000,
-        color: {r: 0, g: 250, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // second star
+  planets[planets.length] = {
+      pos: {x: 625, y: 300},
+      vel: {x: 0.00, y: -0.05},
+      mass: 70000000,
+      color: {r: 150, g: 250, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // second star
-    planets[planets.length] = {
-        pos: {x: 625, y: 300},
-        vel: {x: 0.00, y: -0.05},
-        mass: 70000000,
-        color: {r: 150, g: 250, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // first planet
+  planets[planets.length] = {
+      pos: {x: 100, y: 300},
+      vel: {x: 0.00, y: 0.08},
+      mass: 500000,
+      color: {r: 250, g: 0, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // first planet
-    planets[planets.length] = {
-        pos: {x: 100, y: 300},
-        vel: {x: 0.00, y: 0.08},
-        mass: 500000,
-        color: {r: 250, g: 0, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // planet 0's moon
+  planets[planets.length] = {
+      pos: {x: 82, y: 300},
+      vel: {x: 0.0001, y: 0.085},
+      mass: 100,
+      color: {r: 0, g: 150, b: 250}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // planet 0's moon
-    planets[planets.length] = {
-        pos: {x: 82, y: 300},
-        vel: {x: 0.0001, y: 0.085},
-        mass: 100,
-        color: {r: 0, g: 150, b: 250}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // another planet
+  planets[planets.length] = {
+      pos: {x: 300, y: 300},
+      vel: {x: 0.004, y: 0.06},
+      mass: 2000,
+      color: {r: 0, g: 250, b: 205}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
-    // another planet
-    planets[planets.length] = {
-        pos: {x: 300, y: 300},
-        vel: {x: 0.004, y: 0.06},
-        mass: 2000,
-        color: {r: 0, g: 250, b: 205}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-
-    // another planet
-    planets[planets.length] = {
-        pos: {x: 300, y: 133},
-        vel: {x: 0.00, y: 0.04},
-        mass: 300,
-        color: {r: 150, g: 3, b: 250}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // another planet
+  planets[planets.length] = {
+      pos: {x: 300, y: 133},
+      vel: {x: 0.00, y: 0.04},
+      mass: 300,
+      color: {r: 150, g: 3, b: 250}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
 
 }
 
 // initializes a random configuration!
 function init_random() {
-    var numplanets = Math.random() * 100;
-    for (i = 0; i < numplanets; i++) {
-        planets[planets.length] = {
-            pos: {x: Math.random() * 800 + 200, y: Math.random() * 800},
-            vel: {x: rand() * 0.04, y: rand() * 0.04},
-            mass: Math.pow(10, Math.random() * 5 + 2),
-            color: {r: Math.random() * 250, g: Math.random() * 250, b: Math.random() * 250}
-        }
-        planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    }
+  init_function = init_random;
+  planets = [];
+  clear();
+  background(11, 10, 34);
+  var numplanets = Math.random() * 100;
+  for (i = 0; i < numplanets; i++) {
+      planets[planets.length] = {
+          pos: {x: Math.random() * 800 + 200, y: Math.random() * 800},
+          vel: {x: rand() * 0.04, y: rand() * 0.04},
+          mass: Math.pow(10, Math.random() * 5 + 2),
+          color: {r: Math.random() * 250, g: Math.random() * 250, b: Math.random() * 250}
+      }
+      planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  }
 }
 
 // initializes a random configuration!
 function init_solar_system_starter() {
-    // star
-    planets[planets.length] = {
-        pos: {x: width / 2, y: height / 2},
-        vel: {x: 0, y: 0},
-        mass: Math.pow(10, 7),
-        color: {r: 0, g: 250, b: 0}
-    }
-    planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    // proto-particles
-    var numplanets = Math.random() * 70 + 1000;
-    for (i = 0; i < numplanets; i++) {
-        planets[planets.length] = {
-            pos: {x: width * Math.random(), y: height * Math.random()},
-            vel: {x: rand() * 0.05, y: rand() * 0.05},
-            mass: Math.pow(10, 1),
-            color: {r: Math.random() * 250, g: Math.random() * 250, b: Math.random() * 250}
-        }
-        planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
-    }
+  init_function = init_solar_system_starter;
+  planets = [];
+  clear();
+  background(11, 10, 34);
+  // star
+  planets[planets.length] = {
+      pos: {x: width / 2, y: height / 2},
+      vel: {x: 0, y: 0},
+      mass: Math.pow(10, 7),
+      color: {r: 0, g: 250, b: 0}
+  }
+  planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  // proto-particles
+  var numplanets = Math.random() * 70 + 1000;
+  for (i = 0; i < numplanets; i++) {
+      planets[planets.length] = {
+          pos: {x: width * Math.random(), y: height * Math.random()},
+          vel: {x: rand() * 0.05, y: rand() * 0.05},
+          mass: Math.pow(10, 1),
+          color: {r: Math.random() * 250, g: Math.random() * 250, b: Math.random() * 250}
+      }
+      planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
+  }
 }
 
 // returns a number between -1 and 1

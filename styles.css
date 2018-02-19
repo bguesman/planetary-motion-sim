@@ -26,7 +26,7 @@ body {
 .menu-button {
   padding: 0;
   margin: 0;
-  height: 14.0%;
+  height: 13.96%;
   background-color: #1510db;
   border-style: solid;
   border-color: rgb(11, 10, 34);
@@ -71,3 +71,26 @@ h1 {
     -ms-user-select: none;
     user-select: none;
 }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin-left: 12%;
+    margin-top: -11.1%;
+    background-color: #c8341a;
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #d7d4d6;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+}
+
+.dropdown-content a:hover {background-color: #ec3d1d}
+
+.show {display:block;}
