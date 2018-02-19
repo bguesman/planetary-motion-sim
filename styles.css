@@ -1,0 +1,73 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.p5-container {
+  padding: 0;
+  margin: 0;
+  float: right;
+  width: 88%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.menu-buttons {
+  padding: 0;
+  margin: 0;
+  float: left;
+  width: 12%;
+}
+
+.menu-button {
+  padding: 0;
+  margin: 0;
+  height: 14.0%;
+  background-color: #1510db;
+  border-style: solid;
+  border-color: rgb(11, 10, 34);
+  border-width: 1px;
+  -webkit-animation: darken 0.3s forwards; /* Safari */
+  animation: darken 0.3s forwards;
+}
+
+.menu-button:hover {
+  -webkit-animation: lighten 0.3s forwards; /* Safari */
+  animation: lighten 0.3s forwards;
+}
+
+h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+  font-size: 1.5vw;
+  color: #d7d4d6;
+  text-align: center;
+  position: relative;
+  top: 38%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+@keyframes lighten {
+  from {filter: brightness(95%);}
+  to {filter: brightness(110%);}
+}
+
+@keyframes darken {
+  from {filter: brightness(110%);}
+  to {filter: brightness(95%);}
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

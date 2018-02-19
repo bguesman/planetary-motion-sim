@@ -1,7 +1,36 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,400" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet"></link>
+    <script src="motion_sim.js"></script>
 </head>
 <body>
-    <script src="motion_sim.js"></script>
+  <div class="row">
+    <div class="menu-buttons">
+      <div class="menu-button" id="play">
+        <h1 class='unselectable'>GO</h1>
+      </div>
+      <div class="menu-button" id="pause">
+        <h1 class='unselectable'>STOP</h1>
+      </div>
+      <div class="menu-button" id="restart">
+        <h1 class='unselectable'>RESTART</h1>
+      </div>
+      <div class="menu-button" id="faster">
+        <h1 class='unselectable'>FASTER</h1>
+      </div>
+      <div class="menu-button" id="slower">
+        <h1 class='unselectable'>SLOWER</h1>
+      </div>
+      <div class="menu-button" id="show-paths">
+        <h1 class='unselectable'>SHOW PATHS</h1>
+      </div>
+      <div class="menu-button" id="system-type">
+        <h1 class='unselectable'>SYSTEM TYPE</h1>
+      </div>
+    </div>
+    <div class="p5-container" id='p5-container'>
+    </div>
+  </div>
 </body>

@@ -1,45 +1,85 @@
-// this is a simple planetary motion simulator for two planets, implemented
-// with the p5.js library
+/* Some important constants. */
+const framerate = 60;                         // framerate of the animation
+const size_scale = 0.8;                       // way to scale planet sizes
+const g_constant = 6.674 * Math.pow(10, -11); // yeah...
+const max_delta_t = 1024;
 
-var framerate = 60; // framerate of the animation
-var delta_t = 40; // time scale between frames in seconds
-var size_scale = 0.8; // way to scale planet sizes
+/* Parameters controlled by buttons. */
+var delta_t = 4;       // time scale between frames in seconds
+var show_paths = false; // whether or not to show the planet's paths
+var paused;
 
+/* Data structures. */
 planets = []; // array storing planets
 
-var g_constant = 6.674 * Math.pow(10, -11);
-// var g_constant = 6.674 * Math.pow(10, -6);
+/* Globals for p5. */
+var height, width;
+var canvas;
 
+/* p5's setup function */
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    frameRate(framerate);
-    background(40, 50, 65);
-    fill(color(0, 90, 190));
-    noStroke();
+  // initialize the globals
+  height = windowHeight;
+  width = windowWidth * 0.88;
+  canvas = createCanvas(width, height);
 
-    // init_basic();
-    // init_single_planet_system();
-    // init_binary_star_system();
-    //  init_random();
-    init_solar_system_starter();
+  // set up the canvas
+  canvas.parent('p5-container');
+  frameRate(framerate);
+  noStroke();
+
+  // set up button handlers
+  document.getElementById('play').addEventListener('click',
+    function() { paused = false; })
+  document.getElementById('pause').addEventListener('click',
+    function() { paused = true; })
+  document.getElementById('restart').addEventListener('click',
+    function() {
+      clear();
+      background(11, 10, 34);
+      init_solar_system_starter(); })
+  document.getElementById('faster').addEventListener('click',
+    function() { delta_t = min(max_delta_t, delta_t * 2); })
+  document.getElementById('slower').addEventListener('click',
+    function() { delta_t /= 2; })
+  document.getElementById('show-paths').addEventListener('click',
+    function() {
+      if (!show_paths) {
+        document.getElementById('show-paths').style.backgroundColor = '#ab2d16';
+      } else {
+        document.getElementById('show-paths').style.backgroundColor = '#1510db';
+      }
+      show_paths = !show_paths;
+    })
+
+  // draw the background
+  background(11, 10, 34);
+  fill(color(0, 90, 190));
+
+  // default system
+  init_solar_system_starter();
 }
 
+/* p5's main draw loop */
 function draw() {
+  // redraw if we don't want to show the paths
+  if (!show_paths) {
     clear();
-    // redraw background
-    background(40, 50, 65);
-    noStroke();
+    background(11, 10, 34);
+  }
 
-    // draw the planets
-    var pi;
-    for (i = 0; i < planets.length; i++) {
-        pi = planets[i];
-        fill(color(pi.color.r, pi.color.g, pi.color.b));
-        ellipse(pi.pos.x, pi.pos.y, 2 * pi.radius, 2 * pi.radius);
-    }
+  // draw the planets
+  var pi;
+  for (i = 0; i < planets.length; i++) {
+      pi = planets[i];
+      fill(color(pi.color.r, pi.color.g, pi.color.b));
+      ellipse(pi.pos.x, pi.pos.y, 2 * pi.radius, 2 * pi.radius);
+  }
 
-    // update their positions
+  // update their positions
+  if (!paused) {
     update_positions();
+  }
 }
 
 // updates positions and velocities of planets
@@ -145,7 +185,7 @@ function init_basic() {
 function init_single_planet_system() {
     // star
     planets[planets.length] = {
-        pos: {x: 575, y: 300}, // x y position for plaet 2
+        pos: {x: 575, y: 300}, // x y position for planet 2
         vel: {x: 0, y: 0}, // x y velocity for planet 2
         mass: 70000000,
         color: {r: 0, g: 250, b: 0}
@@ -239,7 +279,7 @@ function init_random() {
 function init_solar_system_starter() {
     // star
     planets[planets.length] = {
-        pos: {x: 600, y: 300},
+        pos: {x: width / 2, y: height / 2},
         vel: {x: 0, y: 0},
         mass: Math.pow(10, 7),
         color: {r: 0, g: 250, b: 0}
@@ -249,7 +289,7 @@ function init_solar_system_starter() {
     var numplanets = Math.random() * 70 + 1000;
     for (i = 0; i < numplanets; i++) {
         planets[planets.length] = {
-            pos: {x: Math.random() * 800 + 200, y: Math.random() * 800},
+            pos: {x: width * Math.random(), y: height * Math.random()},
             vel: {x: rand() * 0.05, y: rand() * 0.05},
             mass: Math.pow(10, 1),
             color: {r: Math.random() * 250, g: Math.random() * 250, b: Math.random() * 250}
@@ -260,22 +300,29 @@ function init_solar_system_starter() {
 
 // returns a number between -1 and 1
 function rand() {
-    if (Math.random() > 0.5) {
-        return Math.random();
-    } else {
-        return -Math.random();
-    }
+  if (Math.random() > 0.5) {
+      return Math.random();
+  } else {
+      return -Math.random();
+  }
 }
 
 // combines two planet colors based on m1 and m2 (masses)
 function combine_colors(c1, c2, m1, m2) {
-    return {r: weighted_avg(c1.r, c2.r, m1, m2),
-        g: weighted_avg(c1.g, c2.g, m1, m2),
-        b: weighted_avg(c1.b, c2.b, m1, m2)};
+  return {r: weighted_avg(c1.r, c2.r, m1, m2),
+      g: weighted_avg(c1.g, c2.g, m1, m2),
+      b: weighted_avg(c1.b, c2.b, m1, m2)};
 }
 
 // Takes weighted average of c1 and c2 with weights calculated as m1/m2 divided
 // by their sum. Used for averaging out colors upon inelastic collisions.
 function weighted_avg(n1, n2, m1, m2) {
-    return n1 * (m1 / (m1 + m2)) + n2 * (m2 / (m1 + m2));
+  return n1 * (m1 / (m1 + m2)) + n2 * (m2 / (m1 + m2));
+}
+
+// handles canvas resizing
+function window_resized() {
+  width = windowWidth;
+  height = windowHeight;
+  canvas.size(windowWidth * 0.88, windowHeight);
 }
