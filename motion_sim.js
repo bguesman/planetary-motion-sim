@@ -47,7 +47,7 @@ function setup() {
   document.getElementById('show-paths').addEventListener('click',
     function() {
       if (!show_paths) {
-        document.getElementById('show-paths').style.backgroundColor = '#ab2d16';
+        document.getElementById('show-paths').style.backgroundColor = '#b5240b';
       } else {
         document.getElementById('show-paths').style.backgroundColor = '#1510db';
       }
@@ -176,7 +176,7 @@ function init_basic() {
   planets[planets.length] = {
       pos: {x: 400, y: 300}, // x y position for planet 1
       vel: {x: 0, y: 0}, // x y velocity for planet 1
-      mass: 1000000,
+      mass: 100000000,
       color: {r: 250, g: 0, b: 0}
   }
   planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;
@@ -185,7 +185,7 @@ function init_basic() {
   planets[planets.length] = {
       pos: {x: 800, y: 300}, // x y position for plaet 2
       vel: {x: 0, y: 0}, // x y velocity for planet 2
-      mass: 1000000,
+      mass: 100000000,
       color: {r: 0, g: 250, b: 0}
   }
   planets[planets.length - 1].radius = Math.log(planets[planets.length - 1].mass) * size_scale;

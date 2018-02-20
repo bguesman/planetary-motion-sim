@@ -76,8 +76,8 @@ h1 {
     display: none;
     position: absolute;
     margin-left: 12%;
-    margin-top: -11.1%;
-    background-color: #c8341a;
+    margin-top: -14.1%;
+    background-color: #b5240b;
     min-width: 160px;
     z-index: 1;
 }
@@ -91,6 +91,6 @@ h1 {
     font-weight: 100;
 }
 
-.dropdown-content a:hover {background-color: #ec3d1d}
+.dropdown-content a:hover {background-color: #bf4029}
 
 .show {display:block;}
