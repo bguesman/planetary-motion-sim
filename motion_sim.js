@@ -346,8 +346,8 @@ function weighted_avg(n1, n2, m1, m2) {
 }
 
 // handles canvas resizing
-function window_resized() {
+function windowResized() {
   width = windowWidth;
   height = windowHeight;
-  canvas.size(windowWidth * 0.88, windowHeight);
+  canvas.size(width * 0.88, height);
 }
