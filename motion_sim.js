@@ -350,4 +350,5 @@ function windowResized() {
   width = windowWidth;
   height = windowHeight;
   canvas.size(width * 0.88, height);
+  background(11, 10, 34);
 }
